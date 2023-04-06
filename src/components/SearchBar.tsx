@@ -19,46 +19,76 @@
 //     created: Date;
 //   };
 
-import { possibleSpecies } from "../types";
+import { possibleSpecies, possibleStatus, possibleGender } from "../types";
+
 import MultipleSelection from "./MultipleSelection";
 
 interface Props {
-  searchName: string;
-  setSearchName: React.Dispatch<React.SetStateAction<string>>;
-  species: string[];
-  setSpecies: React.Dispatch<React.SetStateAction<string[]>>;
+  values: {
+    sname: string;
+    sspecies: string[];
+    sstatus: string[];
+    sgender: string[];
+  };
+  setters: {
+    setSname: React.Dispatch<React.SetStateAction<string>>;
+    setSspecies: React.Dispatch<React.SetStateAction<string[]>>;
+    setSstatus: React.Dispatch<React.SetStateAction<string[]>>;
+    setSgender: React.Dispatch<React.SetStateAction<string[]>>;
+  };
 }
 
 const SearchBar: React.FC<Props> = ({
-  searchName,
-  setSearchName,
-  species,
-  setSpecies,
+  values: { sname, sspecies, sstatus, sgender },
+  setters: { setSname, setSstatus, setSspecies, setSgender },
 }) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchName(e.target.value);
+    setSname(e.target.value);
   };
 
   return (
-    <div className="t-0 l-0 absolute m-0 flex w-full flex-row bg-white">
+    <div className="m-0 flex w-full flex-row justify-between gap-4 bg-white px-4 py-3">
       <div className="flex h-full flex-col flex-nowrap">
-        <p>Name</p>
+        <p className="pb-1">Name</p>
         <input
-          value={searchName}
+          value={sname}
           onChange={handleSearch}
           type="text"
           name="name"
-          className="search-txt"
+          className="rounded-md bg-gray-200 p-1 "
           placeholder="Search by name..."
         />
       </div>
-      <MultipleSelection
-        {...{
-          values: [...possibleSpecies],
-          current: species,
-          setCurrent: setSpecies,
-        }}
-      />
+      <div className="w-full">
+        <MultipleSelection
+          {...{
+            title: "Species",
+            values: [...possibleSpecies],
+            current: sspecies,
+            setCurrent: setSspecies,
+          }}
+        />
+      </div>
+      <div className="w-full">
+        <MultipleSelection
+          {...{
+            title: "Status",
+            values: [...possibleStatus],
+            current: sstatus,
+            setCurrent: setSstatus,
+          }}
+        />
+      </div>
+      <div className="w-full">
+        <MultipleSelection
+          {...{
+            title: "Gender",
+            values: [...possibleGender],
+            current: sgender,
+            setCurrent: setSgender,
+          }}
+        />
+      </div>
       {/* <div className="flex h-full flex-col flex-nowrap items-center">
         <p className="inline-block pl-[0.15rem] hover:cursor-pointer">
           Dead/Alive

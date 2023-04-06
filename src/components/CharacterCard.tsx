@@ -15,13 +15,14 @@ const CharactersCard: React.FC<Props> = (props) => {
       <Image
         src={character.image}
         alt={character.name}
-        className=""
+        className="w-full"
         width={100}
         height={100}
       />
-      <h3>{character.name}</h3>
-      <h3>{character.gender}</h3>
-      <h3>{episode}</h3>
+      <div className="absolute z-10 w-full -translate-y-full bg-black bg-opacity-50 p-1 font-bold text-white">
+        <div className="text-sm">{character.name}</div>
+        <div className="text-xs">{character.species}</div>
+      </div>
     </Link>
   );
 };

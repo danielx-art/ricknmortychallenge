@@ -25,7 +25,14 @@ export const possibleSpecies = [
 
 export type Species = (typeof possibleSpecies)[number];
 
-export type Gender = "Female" | "Male" | "Genderless" | "unknown";
+export const possibleGender = [
+  "Female",
+  "Male",
+  "Genderless",
+  "unknown",
+] as const;
+
+export type Gender = (typeof possibleGender)[number];
 
 export type Character = {
   id: number;
