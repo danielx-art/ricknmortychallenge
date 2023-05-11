@@ -18,6 +18,7 @@ const CharactersCard: React.FC<Props> = (props) => {
         className="w-full"
         width={100}
         height={100}
+        priority={true}
       />
       <div className="absolute z-10 w-full -translate-y-full bg-black bg-opacity-50 p-1 font-bold text-white">
         <div className="text-sm">{character.name}</div>

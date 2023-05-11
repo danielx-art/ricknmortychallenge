@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Character, CharactersResponse } from "../types";
+import { FetchNextPageOptions, InfiniteData, InfiniteQueryObserverResult } from "@tanstack/react-query";
 
-const useCharacterSearch = (data: CharactersResponse | undefined) => {
+const useCharacterSearch = (
+  data: InfiniteData<CharactersResponse> | undefined,
+) => {
   const [sname, setSname] = useState<string>("");
   const [sspecies, setSspecies] = useState<string[]>([]);
   const [sstatus, setSstatus] = useState<string[]>([]);
@@ -9,21 +12,25 @@ const useCharacterSearch = (data: CharactersResponse | undefined) => {
   const [list, setList] = useState<Character[]>([]);
 
   useEffect(() => {
+    
     if (!data) return;
 
-    const filteredList = data.results.filter((item) => {
-      const byName =
-        sname.length > 0
-          ? item.name.toLocaleLowerCase().includes(sname.toLocaleLowerCase())
-          : true;
-      const bySpecies =
-        sspecies.length > 0 ? sspecies.includes(item.species) : true;
-      const byStatus =
-        sstatus.length > 0 ? sstatus.includes(item.status) : true;
-      const byGender =
-        sgender.length > 0 ? sgender.includes(item.gender) : true;
-      return byName && bySpecies && byStatus && byGender;
-    });
+    const filteredList = data.pages.flatMap((page)=>{
+      const filteredPage = page.results.filter((item) => {
+        const byName =
+          sname.length > 0
+            ? item.name.toLocaleLowerCase().includes(sname.toLocaleLowerCase())
+            : true;
+        const bySpecies =
+          sspecies.length > 0 ? sspecies.includes(item.species) : true;
+        const byStatus =
+          sstatus.length > 0 ? sstatus.includes(item.status) : true;
+        const byGender =
+          sgender.length > 0 ? sgender.includes(item.gender) : true;
+        return byName && bySpecies && byStatus && byGender;
+      });
+      return filteredPage;
+    })
 
     setList(filteredList);
   }, [data, sname, sspecies, sstatus, sgender]);

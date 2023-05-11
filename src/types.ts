@@ -1,8 +1,8 @@
 export type Info = {
   count: number;
   pages: number;
-  next: string;
-  prev: null;
+  next: string | null;
+  prev: string | null;
 };
 
 export const possibleStatus = ["Alive", "Dead", "unknown"] as const;
