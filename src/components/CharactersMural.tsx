@@ -1,16 +1,16 @@
-import fetchCharacters from "../queries";
+import { fetchCharacters } from "../queries";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import CharacterCard from "./CharacterCard";
 import SearchBar from "./SearchBar";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { type CharactersResponse, possibleSpecies, Character } from "../types";
 import useCharacterSearch from "../hooks/useCharacterSearch";
+import useResizeObserver from "../hooks/useResizeObserver";
 
 const CharactersMural = () => {
   const {
     data,
     error,
-    status,
     isSuccess,
     isLoading,
     isFetching,
@@ -35,62 +35,76 @@ const CharactersMural = () => {
     }
   );
 
-  useEffect(() => {
-    async function getMore() {
-      const { scrollHeight, scrollTop, clientHeight } =
-        document.documentElement;
+  const getMore = useCallback(async () => {
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
 
-
-      if (!isFetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
-        if (hasNextPage) await fetchNextPage();
-      }
+    if (!isFetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+      if (hasNextPage) await fetchNextPage();
     }
+  }, [fetchNextPage, hasNextPage, isFetching]);
 
-    getMore();
+  const ref = useResizeObserver<HTMLDivElement>(getMore);
 
-    // const onScroll = async () => {
-
-    //   const { scrollHeight, scrollTop, clientHeight } =
-    //     document.documentElement;
-
-    //   if (!isFetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
-    //     if (hasNextPage) await fetchNextPage();
-    //   }
-    // };
-
-    // document.addEventListener("scroll", onScroll);
-    // return () => {
-    //   document.removeEventListener("scroll", onScroll);
-    // };
-  }, [status]);
+  useEffect(() => {
+    document.addEventListener("scroll", getMore);
+    return () => {
+      document.removeEventListener("scroll", getMore);
+    };
+  }, [fetchNextPage, getMore, hasNextPage, isFetching]);
 
   const {
     list,
     searchParams: { values, setters },
   } = useCharacterSearch(data);
 
+  const [showName, setShowName] = useState<boolean>(false);
+
   return (
-    <div className="relative">
+    <div className="relative mb-20">
       <SearchBar {...{ values, setters }} />
-      <div className="relative mx-auto flex w-[100%] flex-row flex-wrap justify-center border-2 border-red-500 p-2">
+
+      <div className="flex w-full flex-row-reverse px-2 pb-1.5 text-sm">
+        <div className="w-fit px-2">
+          <input
+            className="ml-3 mr-1"
+            type="checkbox"
+            id="showNameCheckbox"
+            checked={showName}
+            onChange={() => setShowName((prev) => !prev)}
+          />
+          <label htmlFor="showNameCheckbox">Show characters&apos; names</label>
+        </div>
+      </div>
+
+      <div
+        ref={ref}
+        className="relative mx-auto flex w-[100%] flex-row flex-wrap justify-center px-2"
+      >
         {isError &&
           (error instanceof Error ? (
-            <p>{error.message}</p>
+            <div className="absolute mx-auto rounded-md bg-slate-100 p-5">
+              <p>{error.message}</p>
+            </div>
           ) : (
-            <p>Something went wrong</p>
+            <div className="absolute mx-auto rounded-md bg-slate-100 p-5">
+              <p>Something went wrong {":("}</p>
+            </div>
           ))}
-        {(isFetching || isLoading) && <p>Getting the list of characters...</p>}
+        {(isFetching || isLoading) && (
+          <div className="absolute mx-auto rounded-md bg-slate-100 p-5">
+            <p>Getting the list of characters...</p>
+          </div>
+        )}
         {isSuccess &&
           list.map((character) => (
             <div
               key={character.id}
               className="relative w-[100px] min-w-[100px]"
             >
-              <CharacterCard character={character} />
+              <CharacterCard character={character} showName={showName} />
             </div>
           ))}
       </div>
-      <button>MORE</button>
     </div>
   );
 };

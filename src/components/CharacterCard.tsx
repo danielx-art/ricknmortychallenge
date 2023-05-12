@@ -4,10 +4,11 @@ import type { Character } from "../types";
 
 interface Props {
   character: Character;
+  showName: boolean;
 }
 
 const CharactersCard: React.FC<Props> = (props) => {
-  const { character } = props;
+  const { character, showName } = props;
   const episode = character.episode[0]?.split("/").slice(-2).join(" ");
 
   return (
@@ -20,10 +21,11 @@ const CharactersCard: React.FC<Props> = (props) => {
         height={100}
         priority={true}
       />
-      <div className="absolute z-10 w-full -translate-y-full bg-black bg-opacity-50 p-1 font-bold text-white">
-        <div className="text-sm">{character.name}</div>
-        <div className="text-xs">{character.species}</div>
-      </div>
+      {showName && (
+        <div className="absolute z-10 w-full -translate-y-full bg-black bg-opacity-50 p-1 font-bold text-white">
+          <div className="text-sm">{character.name}</div>
+        </div>
+      )}
     </Link>
   );
 };

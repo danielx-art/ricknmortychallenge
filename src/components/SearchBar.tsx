@@ -22,6 +22,7 @@
 import { possibleSpecies, possibleStatus, possibleGender } from "../types";
 
 import MultipleSelection from "./MultipleSelection";
+import TextSearchElement from "./TextSearchElement";
 
 interface Props {
   values: {
@@ -42,24 +43,12 @@ const SearchBar: React.FC<Props> = ({
   values: { sname, sspecies, sstatus, sgender },
   setters: { setSname, setSstatus, setSspecies, setSgender },
 }) => {
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSname(e.target.value);
-  };
-
   return (
-    <div className="m-0 flex w-full flex-row justify-between gap-4 bg-white px-4 py-3">
-      <div className="flex h-full flex-col flex-nowrap">
-        <p className="pb-1">Name</p>
-        <input
-          value={sname}
-          onChange={handleSearch}
-          type="text"
-          name="name"
-          className="rounded-md bg-gray-200 p-1 "
-          placeholder="Search by name..."
-        />
+    <div className="m-0 flex w-full flex-row justify-between gap-4 bg-white px-4 py-3 text-sm">
+      <div className="border-slate flex h-full flex-col flex-nowrap rounded-sm border-2 p-2">
+        <TextSearchElement {...{ value: sname, setter: setSname }} />
       </div>
-      <div className="w-full">
+      <div className="border-slate box-border w-full rounded-sm border-2 p-2">
         <MultipleSelection
           {...{
             title: "Species",
@@ -69,7 +58,7 @@ const SearchBar: React.FC<Props> = ({
           }}
         />
       </div>
-      <div className="w-full">
+      <div className="border-slate box-border w-full rounded-sm border-2 p-2">
         <MultipleSelection
           {...{
             title: "Status",
@@ -79,7 +68,7 @@ const SearchBar: React.FC<Props> = ({
           }}
         />
       </div>
-      <div className="w-full">
+      <div className="border-slate box-border w-full rounded-sm border-2 p-2">
         <MultipleSelection
           {...{
             title: "Gender",
