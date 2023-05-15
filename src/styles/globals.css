@@ -13,4 +13,18 @@
     @apply m-0;
     @apply box-border;
   }
+
+  .checkbox:checked ~ .check {
+    @apply opacity-100;
+    animation: check-anime 150ms;
+  }
+
+  @keyframes check-anime {
+    0%, 100%{
+      @apply scale-100;
+    }
+    50%{
+      @apply scale-125;
+    }
+  }
 }

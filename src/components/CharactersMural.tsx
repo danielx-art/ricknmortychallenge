@@ -60,48 +60,70 @@ const CharactersMural = () => {
   const [showName, setShowName] = useState<boolean>(false);
 
   return (
-    <div className="relative mb-20">
+    <div className="relative mb-20 bg-rmdarkblue min-h-full">
       <SearchBar {...{ values, setters }} />
 
-      <div className="flex w-full flex-row-reverse px-2 pb-1.5 text-sm">
-        <div className="w-fit px-2">
+      <div className="flex w-full flex-row-reverse px-2 pb-3 text-sm text-rmturquoise">
+        <div className="relative w-fit px-2">
           <input
-            className="ml-3 mr-1"
+            className="checkbox ml-3 mr-1 h-3 w-3 appearance-none rounded-full border-2 border-rmlightblue checked:scale-150 checked:border-dotted checked:border-rmyellow checked:border-[1px]"
             type="checkbox"
             id="showNameCheckbox"
             checked={showName}
             onChange={() => setShowName((prev) => !prev)}
           />
           <label htmlFor="showNameCheckbox">Show characters&apos; names</label>
+          <div className="absolute text-rmyellow -top-0.5 translate-x-2 text-sm opacity-0 transition check">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={5}
+              stroke="currentColor"
+              className="h-5 w-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 12.75l6 6 9-13.5"
+              />
+            </svg>
+          </div>
         </div>
       </div>
 
       <div
         ref={ref}
-        className="relative mx-auto flex w-[100%] flex-row flex-wrap justify-center px-2"
+        className="mx-auto flex w-full flex-row flex-wrap justify-center px-2"
       >
         {isError &&
           (error instanceof Error ? (
-            <div className="absolute mx-auto rounded-md bg-slate-100 p-5">
+            <div className="absolute mx-auto rounded-md bg-rmdarkblue p-5 text-rmpink">
               <p>{error.message}</p>
             </div>
           ) : (
-            <div className="absolute mx-auto rounded-md bg-slate-100 p-5">
+            <div className="absolute mx-auto rounded-md bg-rmdarkblue p-5 text-rmpink">
               <p>Something went wrong {":("}</p>
             </div>
           ))}
         {(isFetching || isLoading) && (
-          <div className="absolute mx-auto rounded-md bg-slate-100 p-5">
+          <div className="absolute mx-auto rounded-md bg-rmdarkblue p-5 text-rmpink">
             <p>Getting the list of characters...</p>
           </div>
         )}
         {isSuccess &&
+          data.pages[0] &&
+          data.pages[0].info.count &&
           list.map((character) => (
             <div
               key={character.id}
-              className="relative w-[100px] min-w-[100px]"
+              className="relative w-[100px] min-w-[100px] shadow-sm shadow-rmturquoise"
             >
-              <CharacterCard character={character} showName={showName} />
+              <CharacterCard
+                character={character}
+                showName={showName}
+                total={data.pages[0]?.info.count as number}
+              />
             </div>
           ))}
       </div>

@@ -5,14 +5,15 @@ import type { Character } from "../types";
 interface Props {
   character: Character;
   showName: boolean;
+  total: number;
 }
 
 const CharactersCard: React.FC<Props> = (props) => {
-  const { character, showName } = props;
+  const { character, showName, total } = props;
   const episode = character.episode[0]?.split("/").slice(-2).join(" ");
 
   return (
-    <Link className="episode_Card" href={`/singleCharacter/${character.id}`}>
+    <Link href={`/singleCharacter/${character.id}-${total}`}>
       <Image
         src={character.image}
         alt={character.name}

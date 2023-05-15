@@ -22,13 +22,13 @@ const TextSearchElement: React.FC<Props> = ({ value, setter }) => {
 
   return (
     <>
-      <p className="pb-1">Name</p>
+      <p className="pb-1 text-rmturquoise">Name</p>
       <input
         value={newValue}
         onChange={handleSearchByName}
         type="text"
         name="name"
-        className="rounded-md bg-gray-200 p-1 "
+        className="rounded-md bg-rmdarkblue text-rmgreen p-1 focus:outline-none"
         placeholder="Search by name..."
       />
     </>

@@ -4,11 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        black: "#000000",
-        blue1: "#7F95D1",
-        pink1a: "#FF82A9",
-        pink1b: "#FFC0BE",
-        white1: "#FFEBE7",
+        rmdarkblue: "#3a4767",
+        rmgreen: "#97ce4c",
+        rmpink: "#f675da",
+        rmyellow: "#fff874",
+        rmlightblue: "#Bee5FD",
+        rmturquoise: "#01b4c6"
       },
       fontFamily: {
         sans: ["Inter"],
