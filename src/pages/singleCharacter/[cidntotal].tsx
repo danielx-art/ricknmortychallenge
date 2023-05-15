@@ -39,7 +39,7 @@ const CharacterPage = () => {
   return (
     <div className="relative h-full w-full bg-rmdarkblue">
       {!isSuccess && (isLoading || isFetching) && (
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center z-50">
           <div className="text-rmpink w-fit h-fit p-4 border-2 border-rmpink">Character data loading...</div>
         </div>
       )}
