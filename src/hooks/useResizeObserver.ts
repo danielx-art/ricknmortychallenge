@@ -1,11 +1,14 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 function useResizeObserver<T extends HTMLElement>(
   callback: (target: T, entry: ResizeObserverEntry) => void
 ) {
   const ref = useRef<T>(null);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const element = ref?.current;
 
     if (!element) {

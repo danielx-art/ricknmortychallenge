@@ -1,9 +1,9 @@
 import { fetchCharacters } from "../queries";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import CharacterCard from "./CharacterCard";
 import SearchBar from "./SearchBar";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { type CharactersResponse, possibleSpecies, Character } from "../types";
+import { useCallback, useEffect, useState } from "react";
+import { type CharactersResponse } from "../types";
 import useCharacterSearch from "../hooks/useCharacterSearch";
 import useResizeObserver from "../hooks/useResizeObserver";
 
@@ -60,20 +60,20 @@ const CharactersMural = () => {
   const [showName, setShowName] = useState<boolean>(false);
 
   return (
-    <div className="relative mb-20 bg-rmdarkblue min-h-full">
+    <div className="relative mb-20 min-h-full bg-rmdarkblue">
       <SearchBar {...{ values, setters }} />
 
       <div className="flex w-full flex-row-reverse px-2 pb-3 text-sm text-rmturquoise">
         <div className="relative w-fit px-2">
           <input
-            className="checkbox ml-3 mr-1 h-3 w-3 appearance-none rounded-full border-2 border-rmlightblue checked:scale-150 checked:border-dotted checked:border-rmyellow checked:border-[1px]"
+            className="checkbox ml-3 mr-1 h-3 w-3 appearance-none rounded-full border-2 border-rmlightblue checked:scale-150 checked:border-[1px] checked:border-dotted checked:border-rmyellow"
             type="checkbox"
             id="showNameCheckbox"
             checked={showName}
             onChange={() => setShowName((prev) => !prev)}
           />
           <label htmlFor="showNameCheckbox">Show characters&apos; names</label>
-          <div className="absolute text-rmyellow -top-0.5 translate-x-2 text-sm opacity-0 transition check">
+          <div className="check absolute -top-0.5 translate-x-2 text-sm text-rmyellow opacity-0 transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
