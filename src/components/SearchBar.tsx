@@ -44,11 +44,11 @@ const SearchBar: React.FC<Props> = ({
   setters: { setSname, setSstatus, setSspecies, setSgender },
 }) => {
   return (
-    <div className="m-0 flex w-full flex-row justify-between gap-4 bg-rmdarkblue px-4 py-3 text-sm">
-      <div className=" border-b-rmpink flex h-full flex-col flex-nowrap border-b-2 p-2">
+    <div className="m-0 flex w-full flex-row flex-wrap justify-between gap-4 bg-rmdarkblue px-4 py-3 text-sm">
+      <div className=" flex h-full flex-col flex-nowrap border-b-2 border-b-rmpink p-2">
         <TextSearchElement {...{ value: sname, setter: setSname }} />
       </div>
-      <div className=" border-b-rmpink box-border w-full border-b-2 p-2">
+      <div className="box-border flex-1 border-b-2 border-b-rmpink p-2">
         <MultipleSelection
           {...{
             title: "Species",
@@ -58,7 +58,7 @@ const SearchBar: React.FC<Props> = ({
           }}
         />
       </div>
-      <div className=" border-b-rmpink box-border w-full border-b-2 p-2">
+      <div className="box-border flex-1 border-b-2 border-b-rmpink p-2">
         <MultipleSelection
           {...{
             title: "Status",
@@ -68,7 +68,7 @@ const SearchBar: React.FC<Props> = ({
           }}
         />
       </div>
-      <div className=" border-b-rmpink box-border w-full border-b-2 p-2">
+      <div className="box-border flex-1 border-b-2 border-b-rmpink p-2">
         <MultipleSelection
           {...{
             title: "Gender",
