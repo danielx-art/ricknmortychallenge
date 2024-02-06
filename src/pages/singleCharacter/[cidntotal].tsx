@@ -20,7 +20,7 @@ const CharacterPage = () => {
     ];
     setCid(routercid);
     setTotal(Number(routertotal));
-  }, [cidntotal]);
+  }, [cidntotal, router.isReady]);
 
   const { data, isSuccess, refetch, isLoading, isFetching } = useQuery(
     ["singleCharacterQuery"],
@@ -34,16 +34,14 @@ const CharacterPage = () => {
   useEffect(() => {
     refetch();
     console.log(data);
-  }, [cid, data]);
+  }, [cid, data, refetch]);
 
   return (
-    <div className="relative h-full w-full bg-rmdarkblue">
-      <div className="group absolute z-10 mx-4 my-4">
-        <span
-          className="absolute left-1/2 translate-x-1/2 text-sm text-rmgreen opacity-0 transition-opacity group-hover:opacity-100"
-        >
+    <div className="h-full w-full bg-rmdarkblue">
+      <div className="group fixed z-10 mx-4 my-4">
+        <div className="absolute left-1/2 translate-x-1/2 text-sm text-rmgreen opacity-0 transition-opacity group-hover:opacity-100">
           Mural
-        </span>
+        </div>
         <Link href={`/`} className=" text-rmgreen">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -69,15 +67,17 @@ const CharacterPage = () => {
         </div>
       )}
       {isSuccess && data.id && (
-        <div className="absolute flex h-full w-full flex-col items-center justify-center overflow-hidden p-4 text-white">
-          <Image
-            src={data.image}
-            alt={data.name}
-            className="h-[300px] w-[300px] rounded-md border-4 border-rmgreen shadow-md"
-            width={300}
-            height={300}
-            priority={true}
-          />
+        <div className="flex h-full min-h-full w-full flex-col items-center justify-start overflow-auto p-4 text-white">
+          <div className="h-[300px] w-[300px] rounded-md border-4 border-rmgreen shadow-md">
+            <Image
+              src={data.image}
+              alt={data.name}
+              className=""
+              width={300}
+              height={300}
+              priority={true}
+            />
+          </div>
           <div className="mx-auto my-4 flex w-full flex-wrap justify-center gap-2 p-4 lg:w-1/2">
             <div className="flex-grow whitespace-nowrap rounded-md border-2 border-rmgreen p-2 shadow-md">
               <div>Name:</div>
